@@ -1,0 +1,37 @@
+Goal
+Develop a lean, performant RESTful API for managing and querying medication stock levels 
+and patient prescriptions. The API should leverage modern asynchronous Python features.
+
+Technology Stack
+-	Web Framework: FastAPI
+-	Data Validation & Serialization: Pydantic
+-	Database Simulation: A simple in-memory Dictionary (or a list of dictionaries) 
+    to simulate data access. (For a real-world application, this would be replaced 
+    by SQLAlchemy or AsyncPG.)
+-	Asynchronicity: async/await
+
+Requirements (Endpoints)
+1.	POST /medications/
+    -	Function: Adds a new medication to the inventory.
+    -	Body: Requires a MedicationCreate schema.
+    -	Response: The created Medication object with a generated id and an initial 
+        stock\_level of 0.
+2.	GET /medications/{med_id}
+    -	Function: Retrieves the details of a specific medication.
+    -	Response: The Medication object or a 404 Not Found error.
+3.	PATCH /medications/{med_id}/stock
+    -	Function: Updates the stock level of a medication.
+    -	Body: Requires a StockUpdate schema (only stock\_change). The change can be 
+        positive (inflow) or negative (outflow/dispensing).
+    -	Validation: The stock level must not become negative.
+    -	Response: The updated Medication object.
+4.	GET /prescriptions/search
+    -	Function: Searches for prescriptions based on a query parameter patient\_id 
+        or medication\_id.
+    -	Response: A list of Prescription objects.
+
+
+Annotations:
+- install FastAPI and Uvicorn ASGI Server: pip install fastapi "uvicorn[standard]"
+- navigate to your folder and start you application with: uvicorn main:app --reload
+- open http://127.0.0.1:8000/docs#/ in your browser
