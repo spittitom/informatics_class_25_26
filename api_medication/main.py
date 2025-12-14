@@ -52,3 +52,57 @@ async def update_medication_stock(med_id: UUID, stock_update: StockUpdate):
     return current_med
 
 
+
+
+# # --- PRESCRIPTION ENDPOINTS ---
+
+# @app.post("/prescriptions/", response_model=Prescription, status_code=201, tags=["Prescriptions"])
+# async def create_prescription(p: PrescriptionBase):
+#     """Creates a new prescription and deducts the quantity from stock (simulated)."""
+#     if p.medication_id not in medications_db:
+#         raise HTTPException(status_code=404, detail="Referenced medication not found")
+
+#     # Simulation Step: Automatically adjust stock upon prescription creation
+#     stock_change = -p.quantity # Deduction of quantity
+    
+#     # Ideally, we would encapsulate the PATCH logic here or start a transaction.
+#     # For this task, we call the logic directly (Caution: Use transactions in real life!)
+#     try:
+#         med_update = StockUpdate(stock_change=stock_change)
+#         updated_med = await update_medication_stock(p.medication_id, med_update)
+#     except HTTPException as e:
+#         # We pass on the error from the stock adjustment directly
+#         raise HTTPException(status_code=400, detail=f"Stock deduction failed: {e.detail}")
+
+#     # Creation of the prescription after stock was successfully adjusted
+#     new_prescription = Prescription(
+#         patient_id=p.patient_id,
+#         medication_id=p.medication_id,
+#         quantity=p.quantity,
+#         instructions=p.instructions
+#     )
+#     prescriptions_db[new_prescription.id] = new_prescription
+    
+#     return new_prescription
+
+# @app.get("/prescriptions/search", response_model=List[Prescription], tags=["Prescriptions"])
+# async def search_prescriptions(
+#     patient_id: Optional[int] = None, 
+#     medication_id: Optional[UUID] = None
+# ):
+#     """Searches for prescriptions based on Patient ID or Medication ID."""
+    
+#     # Asynchronous filtering of data (Simulation of a DB query)
+#     def filter_logic():
+#         results = []
+#         for p in prescriptions_db.values():
+#             match_patient = patient_id is None or p.patient_id == patient_id
+#             match_medication = medication_id is None or p.medication_id == medication_id
+            
+#             if match_patient and match_medication:
+#                 results.append(p)
+#         return results
+
+#     # In a real application, you would use 'await' for the DB query here.
+#     # Since our DB is an in-memory Dict, we can call the function synchronously.
+#     return filter_logic()
