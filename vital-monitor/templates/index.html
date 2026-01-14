@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Vital Monitor</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h1 { color: #333; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        #response { margin-top: 20px; padding: 10px; background-color: #e2e6ea; border-radius: 4px; white-space: pre-wrap; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vitaldaten-Eingabe</h1>
+        <form id="vitalForm">
+            <label for="patientId">Patient ID:</label>
+            <input type="text" id="patientId" name="patient_id" required><br>
+
+            <label for="heartRate">Herzfrequenz (BPM):</label>
+            <input type="number" id="heartRate" name="heart_rate" min="1" required><br>
+
+            <button type="submit">Daten senden</button>
+        </form>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById('vitalForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Formular nicht neu laden
+            
+            const patientId = document.getElementById('patientId').value;
+            const heartRate = parseInt(document.getElementById('heartRate').value);
+
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = 'Sende Daten...';
+
+            try {
+                const response = await fetch('/vital-check', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        patient_id: patientId,
+                        heart_rate: heartRate
+                    })
+                });
+
+                const data = await response.json();
+                responseDiv.textContent = 'Antwort vom Server:\n' + JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseDiv.textContent = 'Fehler beim Senden der Daten: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

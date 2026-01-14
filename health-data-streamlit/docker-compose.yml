@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  health-dashboard:
+    build: .
+    ports:
+      - "8501:8501" # Host-Port 8501 zu Container-Port 8501
+    environment:
+      - PORT=8501

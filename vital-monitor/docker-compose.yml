@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  vital-service:
+    build: .
+    ports:
+      - "8080:5000"
+    environment:
+      - PORT=5000
