@@ -1,0 +1,5 @@
+#,Name,Age,Symptoms,Pain Level,Temperature (C),Pulse (bpm),Shortness of Breath,Triage Category,Timestamp
+1,Ahmed,67,chest pain | dizziness,9,37.2,140,Yes,IMMEDIATE,09:14:22 02/07/2026
+2,Klaus,82,confusion | weakness,3,39.1,105,No,URGENT,09:15:08 02/07/2026
+3,Sara,34,headache | nausea,4,38.0,88,No,NORMAL,09:16:45 02/07/2026
+4,Lena,22,sore throat | mild cough,2,37.5,72,No,NON-URGENT,09:17:30 02/07/2026
